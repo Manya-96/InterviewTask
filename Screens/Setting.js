@@ -14,25 +14,26 @@ class Setting extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            inputValue: ' '
+            inputValue: ' ',
+            allValues:[]
         }
     }
 
     onChangeTextBtn = (text) => {
-        console.log("texttttttttt-----", text)
+        // let variableName ;
+        // variableName += text
+        // console.log("variableName",variableName)
         this.setState({
             inputValue: text
         }, () => {
-            // console.log("state value input-----", this.state.inputValue);
         })
     }
 
     doneBtn = () => {
-        console.log("state value input-----", this.state.inputValue);
         // if (!this.state.inputValue) {
         //     Alert.alert(
         //         "Alert Title",
-        //         "Enter value",
+        //         "Enter String",
         //         [
         //             {
         //                 text: "Cancel",
@@ -43,16 +44,42 @@ class Setting extends React.Component {
         //         ]
         //     );
         // } else {
-        console.log("dont btn called=----");
-        this.props.dispatch(SetTextInputData(this.state.inputValue));
-        // }
+           // this.state.allValues.push(this.state.inputValue);
+            var joined = this.state.allValues.concat(this.state.inputValue);
+             this.setState({ allValues: joined })
+            console.log(" btn called=--- checking-",this.state.allValues);
+        this.props.dispatch(SetTextInputData(this.state.allValues));
+               //      this.setState({ allValues: joined })
+               console.log("--hello--", this.props.data)
+
+
+
+        //}
     }
+
+    renderItem = ({ item }) => {
+        console.log("item on contacts render>>>>>", item);
+        return (
+            <View>
+                <Text>
+                    {item}
+                </Text>
+            </View>
+        )
+        }
 
 
     render() {
-        console.log("render value ropsss text input----", this.props.data)
+        console.log("----", this.props.data)
+
         return (
             <View style={styles.center}>
+                {this.props.data ? 
+                <FlatList
+                data={this.state.allValues}
+                renderItem={this.renderItem}
+                /> : <View/>}
+
                 <Text>This is the setting screen</Text>
                 <TextInput
                     style={styles.input}
